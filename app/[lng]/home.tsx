@@ -1,12 +1,12 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from '@/i18n/client';
 import request from '@/lib/request';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { Suspense } from 'react';
-import { toast } from 'sonner';
+import { Skeleton } from 'primereact/skeleton';
+import { Toast } from 'primereact/toast';
+import { Suspense, useRef } from 'react';
 
 function TranslateComponent() {
   const { lng } = useParams<{ lng: string }>();
@@ -31,22 +31,38 @@ function IPComponent() {
       return res.data;
     },
   });
+  const toast = useRef<Toast>(null);
   return (
     <ul className="flex flex-col gap-4">
       <li
         onClick={() => {
-          toast.warning('Warning');
-          toast.success('Success');
-          toast.error('Error');
-          toast.info('Info');
-          toast.loading('Loading');
-          toast.message('Message');
+          toast.current?.show({
+            severity: 'info',
+            summary: 'Info',
+            detail: 'Info',
+          });
+          toast.current?.show({
+            severity: 'success',
+            summary: 'success',
+            detail: 'success',
+          });
+          toast.current?.show({
+            severity: 'error',
+            summary: 'error',
+            detail: 'error',
+          });
+          toast.current?.show({
+            severity: 'warn',
+            summary: 'warn',
+            detail: 'warn',
+          });
         }}
       >
         IP: {data.ip}
       </li>
       <li>地址: {data.address}</li>
       <TranslateComponent />
+      <Toast ref={toast} />
     </ul>
   );
 }

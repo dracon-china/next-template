@@ -1,14 +1,14 @@
-import ReactQueryProvider from '@/app/components/react-query-provide';
+import ReactQueryProvider from '@/app/components/react-query-provider';
 import Scripts from '@/app/components/scripts';
-import ThemeProvider from '@/app/components/theme-provide';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Toaster } from '@/components/ui/sonner';
+import ThemeProvider from '@/app/components/theme-provider';
 import { languages } from '@/i18n/settings';
 import { getMode, getTheme } from '@/lib/config';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { dir } from 'i18next';
 import { Noto_Sans as FontSans } from 'next/font/google';
+import { ScrollPanel } from 'primereact/scrollpanel';
+import PrimeReactProvider from '../components/prime-react-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -48,10 +48,20 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           <ThemeProvider attribute="data-mode" defaultTheme={getMode()}>
-            <ScrollArea className="h-dvh max-h-screen w-dvw max-w-full">
-              {children}
-            </ScrollArea>
-            <Toaster closeButton richColors visibleToasts={9} />
+            <PrimeReactProvider>
+              <ScrollPanel
+                pt={{
+                  root: {
+                    className: 'h-dvh max-h-screen w-dvw max-w-full',
+                  },
+                  barY: {
+                    className: 'bg-blue-500',
+                  },
+                }}
+              >
+                {children}
+              </ScrollPanel>
+            </PrimeReactProvider>
           </ThemeProvider>
         </ReactQueryProvider>
       </body>

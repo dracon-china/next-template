@@ -1,6 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
-import { toast } from 'sonner';
 import { API_URL, isBrowser } from './utils';
 
 const request = axios.create({
@@ -33,11 +32,11 @@ request.interceptors.response.use(
     const code = error.response?.data?.code;
     switch (code) {
       default:
-        toast.error(
-          error.response?.data?.message ||
-            error.response?.statusText ||
-            'Error',
-        );
+        // toast.error(
+        //   error.response?.data?.message ||
+        //     error.response?.statusText ||
+        //     'Error',
+        // );
         break;
     }
     return Promise.reject(error);
